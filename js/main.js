@@ -2,14 +2,48 @@ window.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     // burger_menu
+    let isOpen = false;
+    let isAnimate = true;
     const btnMenu = document.querySelector('.menu');
     const menu = document.querySelector('menu');
     const closeBtn = document.querySelector('.close-btn');
     const menuItems = menu.querySelectorAll('ul > li');
 
+    const handleResize = () => {
+        isAnimate = document.documentElement.clientWidth >= 768;
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    let currentAnimation = null;
     const handlerMenu = (ev) => {
-        // ev.preventDefault();
-        menu.classList.toggle('active-menu');
+        // menu.classList.toggle('active-menu');
+
+        const animationKeyframes = [
+            {transform: 'translate(-100%)'},
+            {transform: 'translate(0)'},
+        ];
+        const options = {
+            duration: 300,
+            fill: 'both',
+        };
+        if (isOpen) { // need to close
+            if (isAnimate) {
+                currentAnimation = menu.animate(animationKeyframes.reverse(), options);
+            } else {
+                currentAnimation && currentAnimation.cancel();
+                menu.style.transform = animationKeyframes[0].transform;
+            }
+        } else { // need to open
+            if (isAnimate) {
+                currentAnimation = menu.animate(animationKeyframes, options);
+            } else {
+                currentAnimation && currentAnimation.cancel();
+                menu.style.transform = animationKeyframes[1].transform;
+            }
+        }
+
+        isOpen = !isOpen;
     };
 
     btnMenu.addEventListener('click', handlerMenu);
