@@ -94,24 +94,24 @@ body menu {
     justify-content: center;
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
+    transition: transform .3s;
 }
 
 body .active-menu {
-    -webkit-transition: 1s;
-    transition: 1s;
-    -webkit-transform: translateX(100%);
-    transform: translateX(100%)
+    -webkit-transform: translateX(0);
+    transform: translateX(0)
 }
 
 body ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    line-height: 3
 }
 
 body li a {
     font-size: 2rem;
+    line-height: 3;
+    display: inline-block;
     color: #fff
 }
 
@@ -933,11 +933,11 @@ footer .web {
     }
 
     body ul {
-        line-height: 3
+        /*line-height: 3*/
     }
 
     body li a {
-        font-size: 1.5rem
+        font-size: 1.5rem;
     }
 
     body .underline {

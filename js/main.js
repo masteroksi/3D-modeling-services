@@ -2,83 +2,110 @@ window.addEventListener('DOMContentLoaded', function () {
     'use strict';
 
     // burger_menu
-    let isOpen = false;
-    let isAnimate = true;
-    const btnMenu = document.querySelector('.menu');
-    const menu = document.querySelector('menu');
-    const closeBtn = document.querySelector('.close-btn');
-    const menuItems = menu.querySelectorAll('ul > li');
+    const toggleMenu = () => {
+        const menu = document.querySelector('menu');
 
-    const handleResize = () => {
-        isAnimate = document.documentElement.clientWidth >= 768;
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    let currentAnimation = null;
-    const handlerMenu = (ev) => {
-        // menu.classList.toggle('active-menu');
-
-        const animationKeyframes = [
-            {transform: 'translate(-100%)'},
-            {transform: 'translate(0)'},
-        ];
-        const options = {
-            duration: 300,
-            fill: 'both',
+        const handlerMenu = (needToClose) => {
+            if (needToClose) {
+                menu.classList.remove('active-menu');
+            } else {
+                menu.classList.toggle('active-menu');
+            }
         };
-        if (isOpen) { // need to close
-            if (isAnimate) {
-                currentAnimation = menu.animate(animationKeyframes.reverse(), options);
-            } else {
-                currentAnimation && currentAnimation.cancel();
-                menu.style.transform = animationKeyframes[0].transform;
-            }
-        } else { // need to open
-            if (isAnimate) {
-                currentAnimation = menu.animate(animationKeyframes, options);
-            } else {
-                currentAnimation && currentAnimation.cancel();
-                menu.style.transform = animationKeyframes[1].transform;
-            }
-        }
 
-        isOpen = !isOpen;
+        document.body.addEventListener('click', (ev) => {
+            const target = ev.target;
+            const btnMenu = target.classList.contains('menu') ? target : target.closest('.menu');
+
+            if (target.classList.contains('close-btn')) {
+                handlerMenu();
+                return;
+            }
+            if (btnMenu) {
+                handlerMenu();
+                return;
+            }
+            if (
+                (
+                    target.closest('li') &&
+                    target.closest('li').closest('menu')
+                ) || (
+                    target.tagName === 'LI' &&
+                    target.closest('menu')
+                )
+            ) {
+                handlerMenu();
+                return;
+            }
+            if (target.closest('menu')) {
+                return;
+            }
+            handlerMenu(true);
+        });
     };
 
-    btnMenu.addEventListener('click', handlerMenu);
-    closeBtn.addEventListener('click', (ev) => {
-        ev.preventDefault();
-        handlerMenu();
-    });
-    menuItems.forEach(item => {
-        item.addEventListener('click', handlerMenu);
-    });
+    toggleMenu();
 
     // popup
-    const popup = document.querySelector('.popup');
-    const popupBtn = document.querySelectorAll('.popup-btn');
-    const popupClose = document.querySelector('.popup-close');
+    const popupLogic = () => {
+        const popup = document.querySelector('.popup');
+        const popupBtn = document.querySelectorAll('.popup-btn');
 
-    const setIsOpen = (isOpen) => {
-        popup.style.display = isOpen ? 'block' : 'none';
-    };
-    popupBtn.forEach((btn) => {
-        btn.addEventListener('click', () => {
-            setIsOpen(true);
+        const setIsOpen = (isOpen) => {
+            popup.style.display = isOpen ? 'block' : 'none';
+        };
+        popupBtn.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                setIsOpen(true);
+            });
         });
-    });
-    popupClose.addEventListener('click', () => {
-        setIsOpen(false);
-    });
 
+        popup.addEventListener('click', (event) => {
+            let target = event.target;
+            if (target.classList.contains('popup-close')) {
+                setIsOpen(false);
+            } else {
+                target = target.closest('.popup-content');
+                if (!target) {
+                    setIsOpen(false);
+                }
+            }
+        });
+    };
+
+    popupLogic();
+
+    // tabs
+    const tabs = () => {
+        const tabHeader = document.querySelector('.service-header');
+        const tab = tabHeader.querySelectorAll('.service-header-tab');
+        const tabContent = document.querySelectorAll('.service-tab');
+
+
+        const toggleTabContent = (index) => {
+            for (let i = 0; i < tabContent.length; i++) {
+                if (index === i) {
+                    tab[i].classList.add('active');
+                    tabContent[i].classList.remove('d-none');
+                } else {
+                    tab[i].classList.remove('active');
+                    tabContent[i].classList.add('d-none');
+                }
+            }
+        };
+        tabHeader.addEventListener('click', (ev) => {
+            let target = event.target;
+            target = target.closest('.service-header-tab');
+            if (target) {
+                tab.forEach((item, i) => {
+                    if (item === target) {
+                        toggleTabContent(i);
+                    }
+                });
+            }
+
+        });
+    };
+
+    tabs();
 });
-// for (let i = 0; i < menuItems.length; i++){
-//     menuItems[i].addEventListener('click', handlerMenu);
-// }
-// menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
-
-
-
-
-
