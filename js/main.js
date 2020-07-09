@@ -135,7 +135,6 @@ window.addEventListener('DOMContentLoaded', function () {
         renderDots();
 
         const prevSlide = (elem, index, strClass) => {
-            console.log(elem, index, strClass);
             elem[index].classList.remove(strClass);
         };
         const nextSlide = (elem, index, strClass) => {
@@ -213,4 +212,39 @@ window.addEventListener('DOMContentLoaded', function () {
         startSlide(1500);
     };
     slider();
+
+
+    // our team
+    function ourTeam() {
+        const teamContainer = document.getElementById('command');
+
+        function swapImage(img) {
+            const src = img.src;
+            const newSrc = img.dataset.img;
+            img.dataset.img = src;
+            img.src = newSrc;
+        }
+
+        function hover(ev) {
+            if (ev.target && ev.target.tagName === "IMG") {
+                swapImage(ev.target);
+            }
+        }
+
+        teamContainer.addEventListener('mouseover', hover);
+        teamContainer.addEventListener('mouseout', hover);
+    }
+    ourTeam();
+
+    // calculator
+    function calculator() {
+        const inputs = document.querySelectorAll('.calc-item');
+        inputs.forEach((input) => {
+            input.addEventListener('input', (ev) => {
+                const text = ev.target.value;
+                ev.target.value = text.replace(/\D/, '');
+            });
+        });
+    }
+    calculator();
 });
