@@ -78,7 +78,7 @@ class Validator {
         elem.classList.remove('error');
 
         elem.classList.add('success');
-        if (elem.nextElementSibling && elem.nextElementSibling.classList.contains('.validator-error')) {
+        if (elem.nextElementSibling && elem.nextElementSibling.classList.contains('validator-error')) {
             elem.nextElementSibling.remove();
         }
     }

@@ -413,79 +413,79 @@
         </div>
     </div>
 </div>
-<script src="./plugins/validator/validator.js"></script>
+<!--<script src="./plugins/validator/validator.js"></script>-->
 <script>
-    const valid = new Validator({
-        selector: '#form1',
-        pattern: {
-            phone: /^\+380\d{9}$/,
-            zip: /\d{5,6}/,
-            name: /[А-Яа-я]+/,
-        },
-        method: {
-            'form1-name': [
-                ['notEmpty'],
-                ['pattern', 'name'],
-            ],
-            'form1-email': [
-                ['notEmpty'],
-                ['pattern', 'email'],
-            ],
-            'form1-phone': [
-                ['notEmpty'],
-                ['pattern', 'phone'],
-            ],
-        },
-    });
-    valid.init();
-
-    const valid2 = new Validator({
-        selector: '#form2',
-        pattern: {
-            phone: /^\+380\d{9}$/,
-            zip: /\d{5,6}/,
-            name: /[А-Яа-я]+/,
-        },
-        method: {
-            'form2-name': [
-                ['notEmpty'],
-                ['pattern', 'name'],
-            ],
-            'form2-email': [
-                ['notEmpty'],
-                ['pattern', 'email'],
-            ],
-            'form2-phone': [
-                ['notEmpty'],
-                ['pattern', 'phone'],
-            ],
-        },
-    });
-
-    valid2.init();
-    const valid3 = new Validator({
-        selector: '#form3',
-        pattern: {
-            phone: /^\+380\d{9}$/,
-            zip: /\d{5,6}/,
-            name: /[А-Яа-я]+/,
-        },
-        method: {
-            'form3-name': [
-                ['notEmpty'],
-                ['pattern', 'name'],
-            ],
-            'form3-email': [
-                ['notEmpty'],
-                ['pattern', 'email'],
-            ],
-            'form3-phone': [
-                ['notEmpty'],
-                ['pattern', 'phone'],
-            ],
-        },
-    });
-    valid3.init();
+    // const valid = new Validator({
+    //     selector: '#form1',
+    //     pattern: {
+    //         phone: /^\+380\d{9}$/,
+    //         zip: /\d{5,6}/,
+    //         name: /[А-Яа-я]+/,
+    //     },
+    //     method: {
+    //         'form1-name': [
+    //             ['notEmpty'],
+    //             ['pattern', 'name'],
+    //         ],
+    //         'form1-email': [
+    //             ['notEmpty'],
+    //             ['pattern', 'email'],
+    //         ],
+    //         'form1-phone': [
+    //             ['notEmpty'],
+    //             ['pattern', 'phone'],
+    //         ],
+    //     },
+    // });
+    // valid.init();
+    //
+    // const valid2 = new Validator({
+    //     selector: '#form2',
+    //     pattern: {
+    //         phone: /^\+380\d{9}$/,
+    //         zip: /\d{5,6}/,
+    //         name: /[А-Яа-я]+/,
+    //     },
+    //     method: {
+    //         'form2-name': [
+    //             ['notEmpty'],
+    //             ['pattern', 'name'],
+    //         ],
+    //         'form2-email': [
+    //             ['notEmpty'],
+    //             ['pattern', 'email'],
+    //         ],
+    //         'form2-phone': [
+    //             ['notEmpty'],
+    //             ['pattern', 'phone'],
+    //         ],
+    //     },
+    // });
+    //
+    // valid2.init();
+    // const valid3 = new Validator({
+    //     selector: '#form3',
+    //     pattern: {
+    //         phone: /^\+380\d{9}$/,
+    //         zip: /\d{5,6}/,
+    //         name: /[А-Яа-я]+/,
+    //     },
+    //     method: {
+    //         'form3-name': [
+    //             ['notEmpty'],
+    //             ['pattern', 'name'],
+    //         ],
+    //         'form3-email': [
+    //             ['notEmpty'],
+    //             ['pattern', 'email'],
+    //         ],
+    //         'form3-phone': [
+    //             ['notEmpty'],
+    //             ['pattern', 'phone'],
+    //         ],
+    //     },
+    // });
+    // valid3.init();
 </script>
 <script src="js/timer.js"></script>
 <script src="js/main.js"></script>
