@@ -288,6 +288,39 @@ window.addEventListener('DOMContentLoaded', function () {
     };
     calc();
 
+    /**
+     *
+     * @param {string} url
+     * @param {{method: string, headers: object, body: object | string}} options
+     * @returns {Promise<Response>}
+     */
+    const sendRequest = (url, options) => {
+        return new Promise((res, rej) => {
+            const request = new XMLHttpRequest();
+
+            request.addEventListener('readystatechange', () => {
+                if (request.readyState !== 4) {
+                    return;
+                }
+                if (request.status === 200) {
+                    res(); // TODO: add res(request.responseText) when it needed
+                } else {
+                    rej();
+                }
+            });
+
+            request.open(options.method || 'GET', url);
+
+            if (options.headers) {
+                Object
+                    .entries(options.headers)
+                    .forEach(([key, value]) => {
+                        request.setRequestHeader(key, value);
+                    });
+            }
+            request.send(options.body);
+        });
+    };
     // send-ajax-form
     const sendForm = () => {
         const errorMessage = 'Что то пошло не так....';
@@ -302,32 +335,31 @@ window.addEventListener('DOMContentLoaded', function () {
 
             form.addEventListener('submit', (event) => {
                 event.preventDefault();
+
                 form.appendChild(statusMessage);
-
-                const request = new XMLHttpRequest();
-
-                request.addEventListener('readystatechange', () => {
-                    statusMessage.textContent = loadMessage;
-                    if (request.readyState !== 4) {
-                        return;
-                    }
-                    if (request.status === 200) {
-                        statusMessage.textContent = successMessage;
-                        form.querySelectorAll('input[type=text], input[type=email], input[type=tel]')
-                            .forEach(input => input.value = '');
-                    } else {
-                        statusMessage.textContent = errorMessage;
-                    }
-                });
-                request.open('POST', '/send-request');
-                request.setRequestHeader('Content-Type', 'application/json');
+                statusMessage.textContent = loadMessage;
 
                 const formData = new FormData(form);
                 let body = {};
                 formData.forEach((val, key) => {
                     body[key] = val;
                 });
-                request.send(JSON.stringify(body));
+
+                sendRequest('/send-request', {
+                    method: 'POST',
+                    body: JSON.stringify(body),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(() => {
+                        statusMessage.textContent = successMessage;
+                        form.querySelectorAll('input[type=text], input[type=email], input[type=tel]')
+                            .forEach(input => input.value = '');
+                    })
+                    .catch((ex) => {
+                        statusMessage.textContent = errorMessage;
+                    });
             });
         };
 
@@ -340,7 +372,7 @@ window.addEventListener('DOMContentLoaded', function () {
         };
 
         ['form1', 'form2', 'form3'].forEach(addSubmitForm);
-        ['form1-name', 'form2-name', 'form3-name'].forEach(only(/[^А-ЯЁа-яё ]/iu));
+        ['form1-name', 'form2-name', 'form3-name'].forEach(only(/[^А-ЯЁа-яё ]/i));
         ['form1-phone', 'form2-phone', 'form3-phone'].forEach(only(/[^+0-9]/));
     };
     sendForm();
