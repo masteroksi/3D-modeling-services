@@ -42,7 +42,7 @@ function countTimer() {
             upDateCklok();
         }
 
-        intervalID = setInterval(timer, 1000, '29 juli 2020');
+        intervalID = setInterval(timer, 1000, '31 August 2020');
     });
 }
 
